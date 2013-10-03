@@ -31,18 +31,31 @@ class Volume:
 		self.setVolume()
 
 	def setVolume(self):
-		"sets the volue from class variables"
+		"sets the value from class variables"
 
 		altitude = self.altitude
 		shape = self.shape
 
-		self.volume = shape.getArea() * altitude.getRange()
+		altitudeRange = altitude.getRange()
+		areaSize = shape.getArea()
+
+		self.area = areaSize
+		self.range = altitudeRange
+		self.volume =  altitudeRange * areaSize
 
 	def getVolume(self):
 		"returns the volume of the area"
 
-		volume = self.volume
-		return volume
+		self.setVolume()
+
+		altitudeRange = int(self.range)
+		areaSize = int(self.area)
+		volumeSize = int(self.volume)
+
+		output = json.dumps({"range":altitudeRange,"area":areaSize,"volume":volumeSize})
+		output = re.sub(r'"', "'", output)
+
+		return output
 
 	def getAltitude(self):
 		return self.altitude.getAltitude()

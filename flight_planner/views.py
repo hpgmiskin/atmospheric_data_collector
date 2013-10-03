@@ -15,6 +15,32 @@ volume = geolocation.Volume()
 
 @csrf_exempt
 def home(request):
+	"view for index of flight_planner"
+
+	data = {"test":"test"}
+
+	return render(request, 'flight_planner_index.html', data)
+
+@csrf_exempt
+def planeSetup(request):
+	"view to deal with setting of plane configuration"
+
+	planeForm = [
+		{"id":"plane-speed","label":"Plane Speed","placeholder":"Speed (m/s)"},
+		{"id":"plane-turn","label":"Max Turn Angle","placeholder":"Angle (deg)"},
+		{"id":"plane-time","label":"Max Flight Time","placeholder":"Time (minutes)"}
+		]
+
+	print(planeForm)
+
+	data = {
+		"planeForm" : planeForm
+		}
+
+	return render(request, 'plane_setup.html', data)
+
+@csrf_exempt
+def geographicalSetup(request):
 
 	altitudeData = volume.getAltitude()
 	shapeData = volume.getShape()
@@ -26,7 +52,17 @@ def home(request):
 		"volumeData" : volumeData
 		}
 
-	return render(request, 'flight_planner_index.html', data)
+	return render(request, 'geographical_setup.html', data)
+
+@csrf_exempt
+def routePreview(request):
+	"view to deal with setting of plane configuration"
+
+	data = {
+		"test" : "test"
+		}
+
+	return render(request, 'route_preview.html', data)
 
 @csrf_exempt
 def postShape(request):

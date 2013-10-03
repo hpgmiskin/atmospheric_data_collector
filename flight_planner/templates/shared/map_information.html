@@ -1,0 +1,28 @@
+{% extends "shared/panel_base.html" %}
+
+{% block title %}
+Map Information
+{% endblock %}
+
+{% block content %}
+<form class="form-horizontal" role="form">
+  <div class="form-group">
+    <div class="col-sm-12">
+    	<label for="range">Altitude Range</label>
+      <input type="text" class="form-control" id="range" placeholder="Area (m^2)">
+    </div>
+  </div>
+  <div class="form-group">
+  	<div class="col-sm-12">
+    	<label for="area">Polygon Area</label>
+      <input type="text" class="form-control" id="area" placeholder="Area (m^2)">
+    </div>
+  </div>
+  <div class="form-group">
+  	<div class="col-sm-12">
+    	<label for="volume">Total Volume</label>
+      	<input type="text" class="form-control" id="volume" placeholder="Volume (m^3)">
+    </div>
+  </div>
+</form>
+{% endblock %}

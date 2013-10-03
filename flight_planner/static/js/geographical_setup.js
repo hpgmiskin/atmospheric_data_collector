@@ -1,6 +1,7 @@
-//flight_planner_index
+//index
 
 var map; 
+var drawingManager;
 var shape;
 var volume;
 
@@ -24,7 +25,11 @@ function getObject (jsonString) {
 
 function update(data) {
 	//general function to be called for any update
-	console.log(data["volumeData"])
+	//console.log(data["volumeData"])
+	//console.log(drawingManager)
+	//drawingManager["drawingMode"] = null;
+	//console.log(drawingManager)
+	setVolumeData(data)
 }
 
 function updateAltitude (altitudeData) {
@@ -80,12 +85,14 @@ function addShape(shapeData) {
 
 	shape = existingShape;
 
-	if (type == "rectangle") {
-		setRectangleListeners(existingShape);
-	} else if (type == "polygon") {
-		alert("polygon")
-		setPolygonListeners(existingShape);
-	};
+	// if (type == "rectangle") {
+	// 	setRectangleListeners(existingShape);
+	// } else if (type == "polygon") {
+	// 	setPolygonListeners(existingShape);
+	// };
+
+	setRectangleListeners(existingShape);
+	setPolygonListeners(existingShape);
 
 }
 
@@ -94,11 +101,13 @@ function initialize() {
 	var shapeData = getObject($("#shapeData").val());
 	
 	drawMap(shapeData["mapCenter"]);
+	setVolumeData();
 	addShape(shapeData);
 
 }
 
 function drawMap(mapCenter) {
+
 	var myOptions = {
 		center : new google.maps.LatLng(mapCenter[0],mapCenter[1]),
 		zoom : 16,
@@ -108,7 +117,35 @@ function drawMap(mapCenter) {
 	google.maps.event.addListenerOnce(map, 'idle', function() {
 		//addFeaturesToMap();
 	});
-	var drawingManager = new google.maps.drawing.DrawingManager({
+
+	setDrawingManager()
+
+	google.maps.event.addListener(drawingManager, 'polygoncomplete', function(polygon) {
+		if (typeof(shape) != "undefined") {
+			shape.setMap(null);
+		};
+		complexPath = polygon.getPath();
+		path = complexPath["b"];
+		updatePolygon(path);
+		setPolygonListeners(polygon);
+		shape = polygon;
+	});
+
+	google.maps.event.addListener(drawingManager, 'rectanglecomplete' , function(rectangle) {
+		if (typeof(shape) != "undefined") {
+			shape.setMap(null);
+		};
+		path = rectangle.getBounds()
+		updateRectangle(path)
+		setRectangleListeners(rectangle);
+		shape = rectangle;
+	});
+
+} ;
+
+
+function setDrawingManager() {
+	drawingManager = new google.maps.drawing.DrawingManager({
 		drawingMode : null,
 		drawingControl : true,
 		drawingControlOptions : {
@@ -122,33 +159,11 @@ function drawMap(mapCenter) {
 		polygonOptions : DEFAULT_FORMAT
 	});
 	drawingManager.setMap(map);
-
-	google.maps.event.addListener(drawingManager, 'polygoncomplete', function(polygon) {
-		if (typeof(shape) != "undefined") {
-			shape.setMap(null);
-		};
-		complexPath = polygon.getPath();
-		path = complexPath["b"];
-		updatePolygon(path);
-		setPolygonListeners(polygon);
-	});
-
-	google.maps.event.addListener(drawingManager, 'rectanglecomplete' , function(rectangle) {
-		if (typeof(shape) != "undefined") {
-			shape.setMap(null);
-		};
-		path = rectangle.getBounds()
-		updateRectangle(path)
-		setRectangleListeners(rectangle);
-	});
-
-} ;
-
+}
 
 function setPolygonListeners(polygon) {
 
 	google.maps.event.addListener(polygon, 'capturing_changed', function() { 
-		shape = this
 		window.setTimeout(function() {
 			complexPath = shape.getPath();
 			path = complexPath["b"];
@@ -160,7 +175,7 @@ function setPolygonListeners(polygon) {
 function setRectangleListeners(rectangle) {
 
 	google.maps.event.addListener(rectangle, 'bounds_changed', function() {
-		shape = this
+		shape = this;
 		window.setTimeout(function() {
       		var path = shape.getBounds();
     		updateRectangle(path);
@@ -211,3 +226,19 @@ $(function() {
 		"m - " + $( "#altitude-slider" ).slider( "values", 1 ) + "m");
 
 });
+
+
+function setVolumeData(data) {
+	if (data) {
+		volumeData = data["volumeData"]
+	} else {
+		volumeData = $("#volumeData").val()
+	};
+
+	volumeData = getObject(volumeData)
+
+	$("#range").val(volumeData["range"]);
+	$("#area").val(volumeData["area"]);
+	$("#volume").val(volumeData["volume"]);
+
+};

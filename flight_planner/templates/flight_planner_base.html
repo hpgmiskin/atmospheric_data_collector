@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-Drawing Map - {% block subTitle %}{% endblock %}
+Flight Planner - {% block subTitle %}{% endblock %}
 {% endblock %}
 
 {% block head %}
@@ -9,33 +9,11 @@ Drawing Map - {% block subTitle %}{% endblock %}
 {% block style %}{% endblock %}
 {% endblock %}
 
-{% block foot %}
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=drawing"></script>
+{% block end %}
 <script type="text/javascript" src="/static/js/flight_planner_base.js"></script>
 {% block script %}{% endblock %}
 {% endblock %}
 
-{% block navTitle %}
-Drawing Map - {% block navSubTitle %}{% endblock %}
-{% endblock %}
-
-{% block navContent %}
-<li class="active"><a href="#">Home</a></li>
-<li><a href="#about">About</a></li>
-<li><a href="#contact">Contact</a></li>
-{% endblock %}
-
-{% block sidebar %}
-<li>Sidebar</li>
-<li class="active"><a href="#">Link</a></li>
-<li><a href="#">Link</a></li>
-<li><a href="#">Link</a></li>
-<li>Settings</li>
-{% block settings %}
-{% endblock %}
-{% endblock %}
-
-{% block content %}
-<div id="map_canvas" style="height:100%"></div>
-<input type="hidden" id="shapeData" value="{{shapeData|safe}}" />
+{% block sidebarTitle %}
+Flight Planner
 {% endblock %}

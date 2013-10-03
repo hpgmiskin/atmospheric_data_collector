@@ -27,6 +27,13 @@ html,body {
   background-color: #cccccc;
 }
 
+.hr {
+    height: 1px;
+    margin: 6px;
+    width: 100%;
+    background-color: transparent;
+}
+
 /*
  * Off Canvas
  * --------------------------------------------------

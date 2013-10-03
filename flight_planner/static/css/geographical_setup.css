@@ -5,6 +5,7 @@
 	border:none;
 	background-color: transparent;
 }
+
 #altitude-slider {
 	width: 30px;
 	padding: auto;
@@ -15,7 +16,7 @@
 }
 
 .center-box {
-	height: 250px;
+	height: 200px;
 	display: block;
 	margin: 0px auto;
 	/*background-color: green;*/

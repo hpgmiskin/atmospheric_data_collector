@@ -18,25 +18,6 @@
   <body>
   <div id="wrap">
 
-<!--     <div class="navbar navbar-default navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">{% block navTitle %}{% endblock %}</a>
-        </div>
-        <div class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            {% block navContent %}
-            {% endblock %}
-          </ul>
-        </div>
-      </div>
-    </div> -->
-
     <div class="navbar navbar-default navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
@@ -97,6 +78,7 @@
         <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">
           <div class="well sidebar-nav">
             <ul class="nav">
+              <h4>{% block sidebarTitle %}{% endblock %}</h4>
               {% block sidebar %}
               {% endblock %}
             </ul>
@@ -112,17 +94,20 @@
 
     <div id="footer">
       <div class="container">
+      {% block footer %}
+      {% endblock %}
+      </div>
+    </div>
+<!--       <div class="container">
         <div class="col-xs-8 col-sm-12">
-          {% block footerContent %}
-          {% endblock %}
+
         </div>
         <div class="col-xs-4 visible-xs">
           <p class="pull-right">
               <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle Sidebar</button>
           </p>
         </div>
-      </div>
-    </div>
+      </div> -->
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
@@ -134,7 +119,7 @@
     <script src="/static/js/jquery.ui.slider.js"></script>
     <script src="/static/js/bootstrap.js"></script>
     <script src="/static/js/base.js"></script>
-    {% block foot %}
+    {% block end %}
     {% endblock %}
   </body>
 </html>

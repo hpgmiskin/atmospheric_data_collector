@@ -1,4 +1,7 @@
-.map_canvas {
-	background-color: black;
+#map_canvas {
 	height: 100%;
+}
+
+#footer-button {
+	padding: 10px 0px;
 }

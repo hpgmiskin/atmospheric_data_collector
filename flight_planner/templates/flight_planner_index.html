@@ -4,25 +4,61 @@
 Index
 {% endblock %}
 
-{% block navSubTitle %}
-Index
-{% endblock %}
-
 {% block style %}
-<link href="/static/css/flight_planner_index.css" rel="stylesheet" >
+<!-- <link href="/static/css/flight_planner_index.css" rel="stylesheet" > -->
 {% endblock %}
 
 {% block script %}
-<script type="text/javascript" src="/static/js/flight_planner_index.js"></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=drawing"></script>
+<!-- <script type="text/javascript" src="/static/js/flight_planner_index.js"></script> -->
 {% endblock %}
 
-{% block settings %}
-<h1>Test Setting</h1>
-<div class="outer-box">
-	<input class="reset-this" type="text" id="altitude" />
-	<div class="center-box" id="altitude-slider"></div>
-</div>	
-<input type="hidden" id="low-altitude" value="{{altitudeData.0}}"/>
-<input type="hidden" id="high-altitude" value="{{altitudeData.1}}"/>
-<input type="hidden" id="volume" value="{{volumeData}}"/>
+{% block sidebar %}
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Plane Setup</h3>
+  </div>
+  <div class="panel-body">
+  	<div class="outer-box">
+		<p>Used to set plane configuration</p>
+	</div>	
+  </div>
+</div>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Geographical Setup</h3>
+  </div>
+  <div class="panel-body">
+  	<div class="outer-box">
+		<p>Used to define what the are of interest is</p>
+	</div>	
+  </div>
+</div>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Route Preview</h3>
+  </div>
+  <div class="panel-body">
+  	<div class="outer-box">
+		<p>Plots a 3D graph of the predicted route</p>
+	</div>	
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="jumbotron">
+  <div class="container">
+    <h1>Flight Planner</h1>
+    <p>This is where to define flight path</P>
+  </div>
+</div>
+<p>Use this module to firstly configure the plane that will be used to collect atmospheric data and then to define the exact are of interest</p>
+{% endblock %}
+
+{% block footer %}
+<div class="pull-right" id="footer-button">
+	<a href="/atmospheric_data_collector/control_panel/flight_arcive"><button type="button" class="btn btn-default">Load Previous</button></a>
+	<a href="/atmospheric_data_collector/flight_planner/plane_setup"><button type="button" class="btn btn-primary">Begin Process</button></a>
+</div>
 {% endblock %}
