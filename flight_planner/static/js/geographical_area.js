@@ -5,6 +5,15 @@ var drawingManager;
 var shape;
 var volume;
 
+$("#map-information").hide();
+$("#shape-panel").hide();
+$("#edit-panel").hide();
+
+function toggleContInfo(){
+	$("#map-information").toggle();
+	$("#map-controls").toggle();
+}
+
 function update(data) {
 	//general function to be called for any update
 	//console.log(data["volumeData"])
@@ -19,6 +28,8 @@ function updateAltitude (altitudeData) {
 	altitudeData = JSON.stringify(altitudeData)
 	$.post( "post_altitude",{"postField":altitudeData}, function(data){
 		update(data)
+		$("#range-panel").hide();
+		$("#shape-panel").show();
 	} ,"json");
 }
 
@@ -29,6 +40,10 @@ function updateMap (shapeData) {
 
 	$.post( "post_shape",{"postField":shapeData}, function(data){
 		update(data)
+		$("#shape-panel").hide();
+		$("#map-controls").hide();
+		$("#edit-panel").show();
+		$("#map-information").show();
 	} ,"json");
 };
 

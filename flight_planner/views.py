@@ -47,10 +47,17 @@ def geographicalArea(request):
 	shapeData = volume.getShape()
 	volumeData = volume.getVolume()
 
+	panels = [
+		{"id":"range-panel","title":"Altitude Range","content":"Use the slider to select the altitude range for investigation"},
+		{"id":"shape-panel","title":"Flight Area","content":"Select the area for the flight path using the rectange tool at the top of the map"},
+		{"id":"edit-panel","title":"Edit Area","content":"Edit the shape by selecting the hand tool and draging the rectange corners"}
+	]
+
 	data = {
 		"altitudeData" : altitudeData,
 		"shapeData" : shapeData,
-		"volumeData" : volumeData
+		"volumeData" : volumeData,
+		"panels" : panels
 		}
 
 	return render(request, 'geographical_area.html', data)

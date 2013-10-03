@@ -14,16 +14,12 @@ Index
 {% endblock %}
 
 {% block sidebar %}
-<input type="hidden" id="mapCenter" value="{{mapCenter}}"/>
-{% for panel in panels %}
-	<div id="{{panel.id}}">
-		{% include "shared/generic_panel.html" with panelTitle=panel.title panelContent=panel.content %}
-	</div>
-{% endfor %}
+
 {% endblock %}
 
 {% block content %}
 <div id="map_canvas" style="height:100%"></div>
+<input type="hidden" id="mapCenter" value="{{mapCenter}}"/>
 {% endblock %}
 
 {% block footer %}

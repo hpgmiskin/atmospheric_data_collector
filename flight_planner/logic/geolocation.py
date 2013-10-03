@@ -13,11 +13,12 @@ def average(inputList):
 
 	return sum(inputList)/len(inputList)
 
-def dumpJSON(inputObject):
+def dumpJSON(inputObject,sanitise=False):
 	"returns the anitised json string for the object"
 
 	jsonString = json.dumps(inputObject)
-	#jsonString = re.sub(r'"', "'", jsonString)
+	if sanitise:
+		jsonString = re.sub(r'"', "'", jsonString)
 
 	return jsonString
 
@@ -135,7 +136,7 @@ class Volume:
 		areaSize = int(self.area)
 		volumeSize = int(self.volume)
 
-		output = dumpJSON({"range":altitudeRange,"area":areaSize,"volume":volumeSize})
+		output = dumpJSON({"range":altitudeRange,"area":areaSize,"volume":volumeSize},True)
 
 		return output
 
@@ -279,7 +280,7 @@ class Shape:
 		shapePath = self.getPath()
 		mapCenter = self.getMapCenter()
 
-		output = dumpJSON({"type":shapeType,"path":shapePath,"mapCenter":mapCenter})
+		output = dumpJSON({"type":shapeType,"path":shapePath,"mapCenter":mapCenter},True)
 
 		#print(output)
 		return output

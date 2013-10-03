@@ -1,10 +1,13 @@
 {% extends "shared/panel_base.html" %}
 
+{% block id %}all-map-information{% endblock %}
+
 {% block title %}
 Map Information
 {% endblock %}
 
 {% block content %}
+<div id="map-information">
 <form class="form-horizontal" role="form">
   <div class="form-group">
     <div class="col-sm-12">
@@ -25,4 +28,5 @@ Map Information
     </div>
   </div>
 </form>
+</div>
 {% endblock %}

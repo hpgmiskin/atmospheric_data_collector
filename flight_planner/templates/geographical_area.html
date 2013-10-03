@@ -14,9 +14,6 @@ Index
 {% endblock %}
 
 {% block sidebar %}
-<input type="hidden" id="low-altitude" value="{{altitudeData.0}}"/>
-<input type="hidden" id="high-altitude" value="{{altitudeData.1}}"/>
-<input type="hidden" id="volumeData" value="{{volumeData}}"/>
 {% include "shared/map_controls.html" %}
 {% include "shared/map_information.html" %}
 {% endblock %}
@@ -24,6 +21,9 @@ Index
 {% block content %}
 <div id="map_canvas" style="height:100%"></div>
 <input type="hidden" id="shapeData" value="{{shapeData|safe}}" />
+<input type="hidden" id="low-altitude" value="{{altitudeData.0}}"/>
+<input type="hidden" id="high-altitude" value="{{altitudeData.1}}"/>
+<input type="hidden" id="volumeData" value="{{volumeData}}"/>
 {% endblock %}
 
 {% block footer %}

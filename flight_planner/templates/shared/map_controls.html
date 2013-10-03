@@ -1,10 +1,14 @@
 {% extends "shared/panel_base.html" %}
 
+{% block id %}all-map-controls{% endblock %}
+
 {% block title %}
 Map Controls
 {% endblock %}
 
 {% block content %}
-<input class="reset-this" type="text" id="altitude" />
-<div class="center-box" id="altitude-slider"></div>
+<div id="map-controls">
+	<input class="reset-this" type="text" id="altitude"></input>
+	<div class="center-box" id="altitude-slider"></div>
+</div>
 {% endblock %}
