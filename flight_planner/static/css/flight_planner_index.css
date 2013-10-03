@@ -1,0 +1,27 @@
+#altitude {
+	width:100%;
+	text-align: center;
+	box-shadow : none;
+	border:none;
+	background-color: transparent;
+}
+#altitude-slider {
+	width: 30px;
+	padding: auto;
+}
+
+.ui-slider .ui-slider-handle { 
+	width: 36px;
+}
+
+.center-box {
+	height: 250px;
+	display: block;
+	margin: 0px auto;
+	/*background-color: green;*/
+}
+
+.outer-box {
+	/*background-color: black;*/
+	padding: 0px auto;
+}

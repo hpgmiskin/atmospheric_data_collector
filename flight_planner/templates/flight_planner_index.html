@@ -1,0 +1,28 @@
+{% extends "flight_planner_base.html" %}
+
+{% block subTitle %}
+Index
+{% endblock %}
+
+{% block navSubTitle %}
+Index
+{% endblock %}
+
+{% block style %}
+<link href="/static/css/flight_planner_index.css" rel="stylesheet" >
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript" src="/static/js/flight_planner_index.js"></script>
+{% endblock %}
+
+{% block settings %}
+<h1>Test Setting</h1>
+<div class="outer-box">
+	<input class="reset-this" type="text" id="altitude" />
+	<div class="center-box" id="altitude-slider"></div>
+</div>	
+<input type="hidden" id="low-altitude" value="{{altitudeData.0}}"/>
+<input type="hidden" id="high-altitude" value="{{altitudeData.1}}"/>
+<input type="hidden" id="volume" value="{{volumeData}}"/>
+{% endblock %}

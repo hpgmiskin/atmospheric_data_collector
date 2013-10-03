@@ -1,0 +1,140 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{% block description %}{% endblock %}">
+    <meta name="author" content="{% block author %}{% endblock %}">
+    <title>{% block title %}{% endblock %}</title>
+    <link href="/static/css/bootstrap.css" rel="stylesheet">
+    <link href="/static/css/bootstrap_theme.css" rel="stylesheet">
+    <link href="/static/css/base.css" rel="stylesheet">
+    <link href="/static/css/jquery-ui.custom.css" rel="stylesheet">
+    {% block head %}{% endblock %}
+  </head>
+
+  <body>
+  <div id="wrap">
+
+<!--     <div class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">{% block navTitle %}{% endblock %}</a>
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            {% block navContent %}
+            {% endblock %}
+          </ul>
+        </div>
+      </div>
+    </div> -->
+
+    <div class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/atmospheric_data_collector">ADC</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Flight Planner <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                
+                
+                <li><a href="/atmospheric_data_collector/flight_planner/plane_setup">Plane Setup</a></li>
+                <li><a href="/atmospheric_data_collector/flight_planner/geographical_setup">Geographical Setup</a></li>
+                <li><a href="/atmospheric_data_collector/flight_planner/route_preview">Route Preview</a></li>
+                <li class="divider"></li>
+                <li class="dropdown-header">Tutorial Guide</li>
+                <li><a href="/atmospheric_data_collector/flight_planner">Plan Flight</a></li>
+              </ul>
+            </li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Flight Diagnostics <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="/atmospheric_data_collector/flight_diagnostics/route_analysis">Route Analysis</a></li>
+                <li><a href="/atmospheric_data_collector/flight_diagnostics/data_feed">Data Feed</a></li>
+                <li><a href="/atmospheric_data_collector/flight_diagnostics/flight_results">Flight Results</a></li>
+                <li class="divider"></li>
+                <li class="dropdown-header">Tutorial Guide</li>
+                <li><a href="/atmospheric_data_collector/flight_diagnostics">Diagnose Flight</a></li>
+              </ul>
+            </li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Control Panel <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="/atmospheric_data_collector/control_panel/user_settings">User Settings</a></li>
+                <li><a href="/atmospheric_data_collector/control_panel/plane_configuration">Plane Configuration</a></li>
+                <li><a href="/atmospheric_data_collector/control_panel/location_services">Location Services</a></li>
+                <li class="divider"></li>
+                <li class="dropdown-header">Archive</li>
+                <li><a href="/atmospheric_data_collector/control_panel/flight_archive">Flight Archive</a></li>
+              </ul>
+            </li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/atmospheric_data_collector">Log Out</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row row-offcanvas row-offcanvas-left" style="height:100%;">
+        <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">
+          <div class="well sidebar-nav">
+            <ul class="nav">
+              {% block sidebar %}
+              {% endblock %}
+            </ul>
+          </div>
+        </div>
+        <div class="col-xs-12 col-sm-9" style="height:600px">
+          {% block content %}
+          {% endblock %}
+        </div>
+      </div>
+    </div>
+    </div>
+
+    <div id="footer">
+      <div class="container">
+        <div class="col-xs-8 col-sm-12">
+          {% block footerContent %}
+          {% endblock %}
+        </div>
+        <div class="col-xs-4 visible-xs">
+          <p class="pull-right">
+              <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle Sidebar</button>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/static/js/jquery.js"></script>
+    <script src="/static/js/jquery.ui.core.js"></script>
+    <script src="/static/js/jquery.ui.widget.js"></script>
+    <script src="/static/js/jquery.ui.mouse.js"></script>
+    <script src="/static/js/jquery.ui.slider.js"></script>
+    <script src="/static/js/bootstrap.js"></script>
+    <script src="/static/js/base.js"></script>
+    {% block foot %}
+    {% endblock %}
+  </body>
+</html>
