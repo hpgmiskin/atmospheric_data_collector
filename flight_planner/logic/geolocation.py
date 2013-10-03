@@ -1,6 +1,7 @@
 import json,re
 
 STANDARD_MIN_ALTITUDE,STANDARD_MAX_ALTITUDE = 0,100
+DEFAULT_MAP_CENTER = [50.935531, -1.396047]
 
 def average(inputList):
 	"returns the average of the object"
@@ -11,6 +12,88 @@ def average(inputList):
 		return inputList[0]
 
 	return sum(inputList)/len(inputList)
+
+def dumpJSON(inputObject):
+	"returns the anitised json string for the object"
+
+	jsonString = json.dumps(inputObject)
+	#jsonString = re.sub(r'"', "'", jsonString)
+
+	return jsonString
+
+def loadJSON(inputString):
+	"returns the JSON string as an object"
+
+	return json.loads(inputString)
+
+
+class Marker:
+	"""class that holds the infromation regarding markers home takeoff and landing"""
+
+	def __init__(self):
+		self.home = {	
+						"title" : "none",
+						"updated" : 0,
+						"position" : DEFAULT_MAP_CENTER,
+						"icon" : "/static/images/home.png",
+						"shadow" : "/static/images/home.shadow.png"
+					}
+		self.takeoff = {	
+						"title" : "none",
+						"updated" : 0,
+						"position" : DEFAULT_MAP_CENTER,
+						"icon" : "/static/images/start.png",
+						"shadow" : "/static/images/start.shadow.png"
+					}
+		self.landing = {	
+						"title" : "none",
+						"updated" : 0,
+						"position" : DEFAULT_MAP_CENTER,
+						"icon" : "/static/images/end.png",
+						"shadow" : "/static/images/end.shadow.png"
+					}
+
+	def setMarker(self,markerData):
+		"sets the class data according to the marker data string provided"
+
+		markerData = loadJSON(markerData)
+
+		markerTitle = markerData["title"]
+		markerPosition = markerData["position"]
+		markerPosition = [markerPosition["lb"],markerPosition["mb"]]
+
+		self.home["updated"] = 0
+		self.takeoff["updated"] = 0
+		self.landing["updated"] = 0
+
+		if (markerTitle.lower() == "home"):
+			self.home["title"] = markerTitle
+			self.home["updated"] = 1
+			self.home["position"] = markerPosition
+		elif (markerTitle.lower() == "takeoff"):
+			self.takeoff["title"] = markerTitle
+			self.takeoff["updated"] = 1
+			self.takeoff["position"] = markerPosition
+		elif (markerTitle.lower() == "landing"):
+			self.landing["title"] = markerTitle
+			self.landing["updated"] = 1
+			self.landing["position"] = markerPosition
+
+	def getLastMarker(self):
+		"returns the json string of the last update marker"
+
+		if (self.home["updated"] == 1):
+			return dumpJSON(self.home)
+		elif (self.takeoff["updated"] == 1):
+			return dumpJSON(self.takeoff)
+		elif (self.landing["updated"] == 1):
+			return dumpJSON(self.landing)
+		else:
+			return None
+
+	def getAllMarker(self):
+		"returns the json sting for all the marker data"
+
 
 class Volume:
 	"""
@@ -52,10 +135,15 @@ class Volume:
 		areaSize = int(self.area)
 		volumeSize = int(self.volume)
 
-		output = json.dumps({"range":altitudeRange,"area":areaSize,"volume":volumeSize})
-		output = re.sub(r'"', "'", output)
+		output = dumpJSON({"range":altitudeRange,"area":areaSize,"volume":volumeSize})
 
 		return output
+
+	def getMapCenter(self):
+		"returns the current map center"
+
+		return self.shape.getMapCenter()
+
 
 	def getAltitude(self):
 		return self.altitude.getAltitude()
@@ -108,7 +196,7 @@ class Shape:
 		if ((shapeData == None) or (shapeData["type"] == "none")):
 			self.type = "none"
 			self.area = 0
-			self.mapCenter = [50.935531, -1.396047]
+			self.mapCenter = DEFAULT_MAP_CENTER
 		else:
 			self.type = shapeData["type"]
 			self.path = shapeData["path"]
@@ -191,8 +279,7 @@ class Shape:
 		shapePath = self.getPath()
 		mapCenter = self.getMapCenter()
 
-		output = json.dumps({"type":shapeType,"path":shapePath,"mapCenter":mapCenter})
-		output = re.sub(r'"', "'", output)
+		output = dumpJSON({"type":shapeType,"path":shapePath,"mapCenter":mapCenter})
 
 		#print(output)
 		return output

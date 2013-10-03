@@ -12,6 +12,7 @@ import json,re
 
 SLIDER_VALUES = [100,600]
 volume = geolocation.Volume()
+marker = geolocation.Marker()
 
 @csrf_exempt
 def home(request):
@@ -40,7 +41,7 @@ def planeSetup(request):
 	return render(request, 'plane_setup.html', data)
 
 @csrf_exempt
-def geographicalSetup(request):
+def geographicalArea(request):
 
 	altitudeData = volume.getAltitude()
 	shapeData = volume.getShape()
@@ -50,6 +51,24 @@ def geographicalSetup(request):
 		"altitudeData" : altitudeData,
 		"shapeData" : shapeData,
 		"volumeData" : volumeData
+		}
+
+	return render(request, 'geographical_area.html', data)
+
+@csrf_exempt
+def geographicalSetup(request):
+	"view to deal with setting of plane configuration"
+
+	mapCenter = volume.getMapCenter()
+	panels = [
+		{"id":"home","title":"Home","content":"Please select a home location using a map marker"},
+		{"id":"takeoff","title":"Takeoff","content":"Please select a location to takeoff using a map marker"},
+		{"id":"landing","title":"Landing","content":"Please select a location to land using a map marker"}
+	]
+
+	data = {
+		"mapCenter" : mapCenter,
+		"panels" : panels
 		}
 
 	return render(request, 'geographical_setup.html', data)
@@ -110,3 +129,19 @@ def postAltitude(request):
 	json_data = json.dumps(data)
 
 	return HttpResponse(json_data, mimetype="application/json")
+
+@csrf_exempt
+def postMarker(request):
+
+	markerData = request.POST["postField"]
+
+	marker.setMarker(markerData)
+	print(marker.home)
+	jsonResponce = marker.getLastMarker()
+
+	print("----------------")
+	print(jsonResponce)
+	#test = json.loads(jsonResponce)
+
+	return HttpResponse(jsonResponce, mimetype="application/json")
+

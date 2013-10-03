@@ -14,21 +14,21 @@ Index
 {% endblock %}
 
 {% block sidebar %}
-<input type="hidden" id="low-altitude" value="{{altitudeData.0}}"/>
-<input type="hidden" id="high-altitude" value="{{altitudeData.1}}"/>
-<input type="hidden" id="volumeData" value="{{volumeData}}"/>
-{% include "shared/map_controls.html" %}
-{% include "shared/map_information.html" %}
+<input type="hidden" id="mapCenter" value="{{mapCenter}}"/>
+{% for panel in panels %}
+	<div id="{{panel.id}}">
+		{% include "shared/generic_panel.html" with panelTitle=panel.title panelContent=panel.content %}
+	</div>
+{% endfor %}
 {% endblock %}
 
 {% block content %}
 <div id="map_canvas" style="height:100%"></div>
-<input type="hidden" id="shapeData" value="{{shapeData|safe}}" />
 {% endblock %}
 
 {% block footer %}
 <div class="pull-right" id="footer-button">
 	<a href="/atmospheric_data_collector/flight_planner/plane_setup"><button type="button" class="btn btn-default">Back</button></a>
-	<a href="/atmospheric_data_collector/flight_planner/route_preview"><button type="button" class="btn btn-primary">Next</button></a>
+	<a href="/atmospheric_data_collector/flight_planner/geographical_area"><button type="button" class="btn btn-primary">Next</button></a>
 </div>
 {% endblock %}
