@@ -4,7 +4,7 @@ from django.conf.urls import patterns, include, url
 # from django.contrib import admin
 # admin.autodiscover()
 
-urlpatterns = patterns('control_panel',
+urlpatterns = patterns('flight_diagnostics',
 
     url(r'^$', 'views.home', name='home'),
     url(r'^route_analysis$', 'views.routeAnalysis', name='routeAnalysis'),

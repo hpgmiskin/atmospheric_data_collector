@@ -18,7 +18,13 @@ marker = geolocation.Marker()
 def home(request):
 	"view for index of flight_planner"
 
-	data = {"test":"test"}
+	panels = [
+		{"id":"plane-setup","title":"Plane Setup","content":"Used to set plane configuration"},
+		{"id":"geographical-setup","title":"Geographical Setup","content":"Used to define what the are of interest is"},
+		{"id":"route-preview","title":"Route Preview","content":"Plots a 3D graph of the predicted route"}
+	]
+
+	data = {"panels":panels}
 
 	return render(request, 'flight_planner_index.html', data)
 

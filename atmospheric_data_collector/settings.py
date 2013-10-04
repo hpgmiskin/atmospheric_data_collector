@@ -74,6 +74,8 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(ROOT,"atmospheric_data_collector/static"),
     os.path.join(ROOT,"flight_planner/static"),
+    os.path.join(ROOT,"flight_diagnostics/static"),
+    os.path.join(ROOT,"control_panel/static")
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -114,7 +116,9 @@ WSGI_APPLICATION = 'atmospheric_data_collector.wsgi.application'
 
 TEMPLATE_DIRS = (
     os.path.join(ROOT,"atmospheric_data_collector/templates"),
-    os.path.join(ROOT,"flight_planner/templates")
+    os.path.join(ROOT,"flight_planner/templates"),
+    os.path.join(ROOT,"flight_diagnostics/templates"),
+    os.path.join(ROOT,"control_panel/templates")
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.

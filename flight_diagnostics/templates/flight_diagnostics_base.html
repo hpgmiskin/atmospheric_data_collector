@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}
+Flight Diagnostics - {% block subTitle %}{% endblock %}
+{% endblock %}
+
+{% block head %}
+<link href="/static/css/flight_diagnostics_base.css" rel="stylesheet">
+{% block style %}{% endblock %}
+{% endblock %}
+
+{% block end %}
+<script type="text/javascript" src="/static/js/flight_diagnostics_base.js"></script>
+{% block script %}{% endblock %}
+{% endblock %}
+
+{% block sidebarTitle %}
+Flight Diagnostics
+{% endblock %}
+
+{% block sidebarContent %}
+{% for panel in panels %}
+{% include "shared/generic_panel.html" with panelID=panel.id panelTitle=panel.title panelContent=panel.content %}
+{% endfor %}
+{% endblock %}
