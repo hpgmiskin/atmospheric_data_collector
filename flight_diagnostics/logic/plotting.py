@@ -18,7 +18,7 @@ def testPlot(filename):
 
 	fig = pyplot.figure()
 	ax = fig.gca(projection='3d')
-	theta = numpy.linspace(-4 * numpy.pi, 1 * numpy.pi, 100)
+	theta = numpy.linspace(-4 * numpy.pi, 10 * numpy.pi, 100)
 	z = numpy.linspace(-2, 2, 100)
 	r = z**2 + 1
 	x = r * numpy.sin(theta)
