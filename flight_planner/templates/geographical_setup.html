@@ -20,6 +20,7 @@ Index
 {% block content %}
 <div id="map_canvas" style="height:100%"></div>
 <input type="hidden" id="mapCenter" value="{{mapCenter}}"/>
+<input type="hidden" id="markerData" value="{{markerData|safe}}" />
 {% endblock %}
 
 {% block footer %}

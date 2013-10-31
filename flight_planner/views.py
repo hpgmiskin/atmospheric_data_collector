@@ -75,14 +75,19 @@ def geographicalSetup(request):
 	"view to deal with setting of plane configuration"
 
 	mapCenter = volume.getMapCenter()
+	markerData = marker.getAllMarker()
+
 	panels = [
 		{"id":"home","title":"Home","content":"Please select a home location using a map marker"},
 		{"id":"takeoff","title":"Takeoff","content":"Please select a location to takeoff using a map marker"},
-		{"id":"landing","title":"Landing","content":"Please select a location to land using a map marker"}
+		{"id":"landing","title":"Landing","content":"Please select a location to land using a map marker"},
+		{"id":"nextA","title":"Locations Defined","content":"Chose a differnt home location with a marker, or select the hand tool to move existing markers"},
+		{"id":"nextB","title":"Next Step","content":"When ready use the next button to select the area of interest"}
 	]
 
 	data = {
 		"mapCenter" : mapCenter,
+		"markerData" : markerData,
 		"panels" : panels
 		}
 

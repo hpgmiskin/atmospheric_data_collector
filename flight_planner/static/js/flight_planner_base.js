@@ -41,18 +41,12 @@ function update(data) {
 		icon = data["icon"];
 		shadow = data["shadow"];
 		addMarker(title,position,icon,shadow);
-
-		if (title == "Home") {
-			$("#takeoff").show();
-		} else if (title == "Takeoff") {
-			$("#landing").show();
-		};
 	};
 };
 
 
 function updateMarker(marker) {
-	//function to obtain the path and area of a polygon and post the change
+	//function to take the marker object and post the update
 
 	position = marker.getPosition();
 	title = marker.getTitle()
@@ -61,6 +55,8 @@ function updateMarker(marker) {
 
 	if (typeof(title) == "undefined") {
 		title = markerTitles[markerSelect];
+		newTitle = markerTitles[markerSelect+1];
+		toggleHelp(newTitle.toLowerCase());
 		markerSelect ++;
 		if (markerSelect > 2){
 			markerSelect = 0;
@@ -78,9 +74,17 @@ function updateMarker(marker) {
 
 };
 
+function addAllMarkers(markerData) {
+
+	for (var i = 0;i<markerData.length;i++) {
+		addMarker(markerData[i]["title"],markerData[i]["position"],markerData[i]["icon"],markerData[i]["shadow"]); 
+	};
+};
+
+
 function addMarker(title,position,icon,shadow) {
 
-	console.log(position);
+	if (title == "home")
 
 	var point = new google.maps.LatLng(position[0],position[1]);
 	console.log(point);
@@ -107,14 +111,9 @@ function drawMap(mapCenter,drawingModesSelector) {
 
 	map = new google.maps.Map(document.getElementById('map_canvas'), myOptions); 
 
-	 // google.maps.event.addListenerOnce(map, 'idle', function() {
-	 // 	addMarker();
-	 // });
-
 	setDrawingManager(drawingModesSelector)
 
 	google.maps.event.addListener(drawingManager, 'markercomplete', function(marker) {
-		var markerPosition = marker.getPosition();
 		updateMarker(marker);
 		setMarkerListeners(marker);
 		shape = marker;

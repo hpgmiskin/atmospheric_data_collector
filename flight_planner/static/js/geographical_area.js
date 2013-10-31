@@ -5,12 +5,7 @@ var drawingManager;
 var shape;
 var volume;
 
-var markerTitles = ["Home","Takeoff","Landing"];
-var markerSelect = 0;
-
 $("#map-information").hide();
-$("#shape-panel").hide();
-$("#edit-panel").hide();
 
 function toggleHelp(helpTitle) {
 	$("#range-panel").hide();
@@ -102,14 +97,9 @@ function initialize() {
 	addShape(shapeData);
 	addAllMarkers(markerData);
 
+	toggleHelp("range-panel");
+
 }
-
-function addAllMarkers(markerData) {
-
-	for (var i = 0;i<markerData.length;i++) {
-		addMarker(markerData[i]["title"],markerData[i]["position"],markerData[i]["icon"],markerData[i]["shadow"]); 
-	};
-};
 
 
 function setPolygonListeners(polygon) {
@@ -144,7 +134,7 @@ function updatePolygon(polygonPath) {
 function updateRectangle(rectangleBounds) {
 	//function to obtain the path and area of a rectangle and post the change
 
-	alert(JSON.stringify(rectangleBounds));
+	//alert(JSON.stringify(rectangleBounds));
 
 	var rectangleNorthEastBounds = rectangleBounds.getNorthEast();
 	var rectangleSouthWestBounds = rectangleBounds.getSouthWest();
@@ -154,7 +144,7 @@ function updateRectangle(rectangleBounds) {
 	var rectanglePath = [rectangleNorthEastBounds, rectangleSouthEastBounds, rectangleSouthWestBounds, rectangleNorthWestBounds, rectangleNorthEastBounds]; 
 	var rectangleArea = google.maps.geometry.spherical.computeArea(rectanglePath);
 
-	updateMap({"type":"rectangle","path":rectangleBounds,"area":rectangleArea})
+	updateMap({"type":"rectangle","path":rectangleBounds,"bounds":rectangleBounds,"area":rectangleArea})
 }
 
 google.maps.event.addDomListener(window, 'load', initialize); 
