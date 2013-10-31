@@ -52,6 +52,7 @@ def geographicalArea(request):
 	altitudeData = volume.getAltitude()
 	shapeData = volume.getShape()
 	volumeData = volume.getVolume()
+	markerData = marker.getAllMarker()
 
 	panels = [
 		{"id":"range-panel","title":"Altitude Range","content":"Use the slider to select the altitude range for investigation"},
@@ -62,6 +63,7 @@ def geographicalArea(request):
 	data = {
 		"altitudeData" : altitudeData,
 		"shapeData" : shapeData,
+		"markerData" : markerData,
 		"volumeData" : volumeData,
 		"panels" : panels
 		}

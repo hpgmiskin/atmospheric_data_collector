@@ -5,22 +5,29 @@ var drawingManager;
 var shape;
 var volume;
 
+var markerTitles = ["Home","Takeoff","Landing"];
+var markerSelect = 0;
+
 $("#map-information").hide();
 $("#shape-panel").hide();
 $("#edit-panel").hide();
 
+function toggleHelp(helpTitle) {
+	$("#range-panel").hide();
+	$("#shape-panel").hide();
+	$("#edit-panel").hide();
+	if (helpTitle == "shape-panel") {
+		$("#shape-panel").show();
+	} else if (helpTitle == "edit-panel") {
+		$("#edit-panel").show();
+	} else if (helpTitle == "range-panel") {
+		$("#range-panel").show();
+	};
+};
+
 function toggleContInfo(){
 	$("#map-information").toggle();
 	$("#map-controls").toggle();
-}
-
-function update(data) {
-	//general function to be called for any update
-	//console.log(data["volumeData"])
-	//console.log(drawingManager)
-	//drawingManager["drawingMode"] = null;
-	//console.log(drawingManager)
-	setVolumeData(data)
 }
 
 function updateAltitude (altitudeData) {
@@ -28,8 +35,7 @@ function updateAltitude (altitudeData) {
 	altitudeData = JSON.stringify(altitudeData)
 	$.post( "post_altitude",{"postField":altitudeData}, function(data){
 		update(data)
-		$("#range-panel").hide();
-		$("#shape-panel").show();
+		toggleHelp("shape-panel");
 	} ,"json");
 }
 
@@ -40,10 +46,9 @@ function updateMap (shapeData) {
 
 	$.post( "post_shape",{"postField":shapeData}, function(data){
 		update(data)
-		$("#shape-panel").hide();
 		$("#map-controls").hide();
-		$("#edit-panel").show();
 		$("#map-information").show();
+		toggleHelp("edit-panel");
 	} ,"json");
 };
 
@@ -57,53 +62,54 @@ function addShape(shapeData) {
 		return null;
 	};
 
-	var pathCoordinates = [];
+	
 	var length = 0;
 
 	if (type == "rectangle") {
-		length = path.length - 1;
+		var rectangleBounds = new google.maps.LatLngBounds(
+			new google.maps.LatLng(path[0][0], path[0][1]),
+			new google.maps.LatLng(path[1][0], path[1][1])
+			);
+		var existingShape = new google.maps.Rectangle($.extend({bounds:rectangleBounds},DEFAULT_SHAPE_FORMAT));
 	} else if (type == "polygon") {
 		length = path.length;
+		var polygonPath = [];
+		for (var i = 0; i < length; i++) {
+			polygonPath.push(new google.maps.LatLng(path[i][0], path[i][1]));
+		};
+		var existingShape = new google.maps.Polygon($.extend({paths:polygonPath},DEFAULT_SHAPE_FORMAT));
 	} else {
 		return null;
 	}
 
-	for (var i = 0; i < length; i++) {
-		pathCoordinates.push(new google.maps.LatLng(path[i][0], path[i][1]));
-	};
-
-	shapeSettings = {
-		paths: pathCoordinates,
-		editable: true
-	}
-
-	var existingShape = new google.maps.Polygon($.extend(shapeSettings,DEFAULT_FORMAT));
 	existingShape.setMap(map);
-
 	shape = existingShape;
-
-	// if (type == "rectangle") {
-	// 	setRectangleListeners(existingShape);
-	// } else if (type == "polygon") {
-	// 	setPolygonListeners(existingShape);
-	// };
-
 	setRectangleListeners(existingShape);
-	setPolygonListeners(existingShape);
+	//setPolygonListeners(existingShape);
 
 }
 
 function initialize() {
 
 	var shapeData = getObject($("#shapeData").val());
+	var markerData = getObject($("#markerData").val());
+
 	mapCenter = shapeData["mapCenter"]
 	drawingModesSelector = ["rectangle"]
 	
 	drawMap(mapCenter,drawingModesSelector);
 	setVolumeData();
 	addShape(shapeData);
+	addAllMarkers(markerData);
 
 }
+
+function addAllMarkers(markerData) {
+
+	for (var i = 0;i<markerData.length;i++) {
+		addMarker(markerData[i]["title"],markerData[i]["position"],markerData[i]["icon"],markerData[i]["shadow"]); 
+	};
+};
 
 
 function setPolygonListeners(polygon) {
@@ -138,6 +144,8 @@ function updatePolygon(polygonPath) {
 function updateRectangle(rectangleBounds) {
 	//function to obtain the path and area of a rectangle and post the change
 
+	alert(JSON.stringify(rectangleBounds));
+
 	var rectangleNorthEastBounds = rectangleBounds.getNorthEast();
 	var rectangleSouthWestBounds = rectangleBounds.getSouthWest();
 	var rectangleNorthWestBounds = new google.maps.LatLng(rectangleNorthEastBounds.lat(), rectangleSouthWestBounds.lng());
@@ -146,7 +154,7 @@ function updateRectangle(rectangleBounds) {
 	var rectanglePath = [rectangleNorthEastBounds, rectangleSouthEastBounds, rectangleSouthWestBounds, rectangleNorthWestBounds, rectangleNorthEastBounds]; 
 	var rectangleArea = google.maps.geometry.spherical.computeArea(rectanglePath);
 
-	updateMap({"type":"rectangle","path":rectanglePath,"area":rectangleArea})
+	updateMap({"type":"rectangle","path":rectangleBounds,"area":rectangleArea})
 }
 
 google.maps.event.addDomListener(window, 'load', initialize); 

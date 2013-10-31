@@ -95,6 +95,12 @@ class Marker:
 	def getAllMarker(self):
 		"returns the json sting for all the marker data"
 
+		home = self.home
+		takeoff = self.takeoff
+		landing = self.landing
+
+		return [home,takeoff,landing]
+
 
 class Volume:
 	"""
@@ -207,22 +213,21 @@ class Shape:
 	def setPath(self):
 		"standardises the path to be a lsit of tuples of lat lng"
 
-		originalPath = self.path
+		oldPath = self.path
+		shapeType = self.type
+		print(shapeType)
+		print(type(oldPath))
 
-		if (type(originalPath) == str):
-			originalPath = json.loads(originalPath)
+		if (type(oldPath) == str):
+			oldPath = json.loads(oldPath)
 
-		if (self.type == "polygon") and (type(originalPath) == dict):
-			if ("b" in originalPath.keys()):
-				originalPath = originalPath["b"]
-
-		if (type(originalPath[0]) == list):
-			return None
-
-		newPath = []
-
-		for point in originalPath:
-			newPath.append((point["lb"],point["mb"]))
+		if (shapeType == "rectangle"):
+			newPath = [[oldPath["ea"]["b"],oldPath["fa"]["b"]],[oldPath["ea"]["d"],oldPath["fa"]["d"]]]
+		elif((shapeType == "polygon") and (type(oldPath) == dict)):
+			oldPath = oldPath["b"]
+			newPath = [(point["lb"],point["mb"]) for point in oldPath]
+		else:
+			print(oldPath)
 
 		self.path = newPath
 		self.setMapCenter()
