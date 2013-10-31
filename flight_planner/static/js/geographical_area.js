@@ -1,26 +1,23 @@
 //index
 
-var map; 
-var drawingManager;
-var shape;
-var volume;
-
 $("#map-information").hide();
 
 function toggleHelp(helpTitle) {
 	$("#range-panel").hide();
 	$("#shape-panel").hide();
 	$("#edit-panel").hide();
+	$("#next").hide();
 	if (helpTitle == "shape-panel") {
 		$("#shape-panel").show();
 	} else if (helpTitle == "edit-panel") {
 		$("#edit-panel").show();
+		$("#next").show();
 	} else if (helpTitle == "range-panel") {
 		$("#range-panel").show();
 	};
 };
 
-function toggleContInfo(){
+function toggleControls(){
 	$("#map-information").toggle();
 	$("#map-controls").toggle();
 }
@@ -50,39 +47,27 @@ function updateMap (shapeData) {
 function addShape(shapeData) {
 
 	type = shapeData["type"];
-	path = shapeData["path"];
+	bounds = shapeData["bounds"];
 	mapCenter = shapeData["mapCenter"];
 
-	if ((shapeData["type"] == "none") || (path == null)) {
+	if ((shapeData["type"] == "none") || (bounds == null)) {
 		return null;
 	};
 
-	
-	var length = 0;
-
 	if (type == "rectangle") {
 		var rectangleBounds = new google.maps.LatLngBounds(
-			new google.maps.LatLng(path[0][0], path[0][1]),
-			new google.maps.LatLng(path[1][0], path[1][1])
+			new google.maps.LatLng(bounds[0][0], bounds[0][1]),
+			new google.maps.LatLng(bounds[1][0], bounds[1][1])
 			);
 		var existingShape = new google.maps.Rectangle($.extend({bounds:rectangleBounds},DEFAULT_SHAPE_FORMAT));
-	} else if (type == "polygon") {
-		length = path.length;
-		var polygonPath = [];
-		for (var i = 0; i < length; i++) {
-			polygonPath.push(new google.maps.LatLng(path[i][0], path[i][1]));
-		};
-		var existingShape = new google.maps.Polygon($.extend({paths:polygonPath},DEFAULT_SHAPE_FORMAT));
 	} else {
 		return null;
-	}
+	};
 
 	existingShape.setMap(map);
 	shape = existingShape;
 	setRectangleListeners(existingShape);
-	//setPolygonListeners(existingShape);
-
-}
+};
 
 function initialize() {
 
@@ -98,19 +83,6 @@ function initialize() {
 	addAllMarkers(markerData);
 
 	toggleHelp("range-panel");
-
-}
-
-
-function setPolygonListeners(polygon) {
-
-	google.maps.event.addListener(polygon, 'capturing_changed', function() { 
-		window.setTimeout(function() {
-			complexPath = shape.getPath();
-			path = complexPath["b"];
-    		updatePolygon(path);
-		}, DELAY);
-	});
 };
 
 function setRectangleListeners(rectangle) {
@@ -118,23 +90,14 @@ function setRectangleListeners(rectangle) {
 	google.maps.event.addListener(rectangle, 'bounds_changed', function() {
 		shape = this;
 		window.setTimeout(function() {
-      		var path = shape.getBounds();
-    		updateRectangle(path);
+      		var rectangleBounds = shape.getBounds();
+    		updateRectangle(rectangleBounds);
     	}, DELAY);
 	});
 };
 
-function updatePolygon(polygonPath) {
-	//function to obtain the path and area of a polygon and post the change
-
-	var polygonArea = google.maps.geometry.spherical.computeArea(polygonPath);
-	updateMap({"type":"polygon","path":polygonPath,"area":polygonArea})
-};
-
 function updateRectangle(rectangleBounds) {
 	//function to obtain the path and area of a rectangle and post the change
-
-	//alert(JSON.stringify(rectangleBounds));
 
 	var rectangleNorthEastBounds = rectangleBounds.getNorthEast();
 	var rectangleSouthWestBounds = rectangleBounds.getSouthWest();
@@ -144,8 +107,8 @@ function updateRectangle(rectangleBounds) {
 	var rectanglePath = [rectangleNorthEastBounds, rectangleSouthEastBounds, rectangleSouthWestBounds, rectangleNorthWestBounds, rectangleNorthEastBounds]; 
 	var rectangleArea = google.maps.geometry.spherical.computeArea(rectanglePath);
 
-	updateMap({"type":"rectangle","path":rectangleBounds,"bounds":rectangleBounds,"area":rectangleArea})
-}
+	updateMap({"type":"rectangle","bounds":rectangleBounds,"area":rectangleArea})
+};
 
 google.maps.event.addDomListener(window, 'load', initialize); 
 

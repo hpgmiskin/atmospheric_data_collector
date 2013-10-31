@@ -1,7 +1,4 @@
-var map; 
-var shape;
-var markerTitles = ["Home","Takeoff","Landing","Next"];
-var markerSelect = 0;
+//geographical-setup
 
 function toggleHelp(helpTitle) {
 	$("#home").hide();

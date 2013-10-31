@@ -206,41 +206,36 @@ class Shape:
 			self.mapCenter = DEFAULT_MAP_CENTER
 		else:
 			self.type = shapeData["type"]
-			self.path = shapeData["path"]
+			self.rawBounds = shapeData["bounds"]
 			self.area = float(shapeData["area"])
-			self.setPath()
+			self.setBounds()
 
-	def setPath(self):
-		"standardises the path to be a lsit of tuples of lat lng"
+	def setBounds(self):
+		"method to take the inputted bounds of the shape and convert them to accepted form"
 
-		oldPath = self.path
+		rawBounds = self.rawBounds
 		shapeType = self.type
-		print(shapeType)
-		print(type(oldPath))
 
-		if (type(oldPath) == str):
-			oldPath = json.loads(oldPath)
+		if (type(rawBounds) == str):
+			rawBounds = json.loads(rawBounds)
 
 		if (shapeType == "rectangle"):
-			newPath = [[oldPath["ea"]["b"],oldPath["fa"]["b"]],[oldPath["ea"]["d"],oldPath["fa"]["d"]]]
-		elif((shapeType == "polygon") and (type(oldPath) == dict)):
-			oldPath = oldPath["b"]
-			newPath = [(point["lb"],point["mb"]) for point in oldPath]
-		else:
-			print(oldPath)
+			newBounds = [[rawBounds["ea"]["b"],rawBounds["fa"]["b"]],[rawBounds["ea"]["d"],rawBounds["fa"]["d"]]]
+			print(newBounds)
 
-		self.path = newPath
+
+		self.bounds = newBounds
 		self.setMapCenter()
 
 	def setMapCenter(self):
-		"calculates the average LatLng of the points on the path"
+		"calculates the average LatLng of the points on the Bounds"
 
-		shapePath = self.path
+		shapeBounds = self.bounds
 
 		latList = []
 		lngList = []
 
-		for point in shapePath:
+		for point in shapeBounds:
 			latList.append(point[0])
 			lngList.append(point[1])
 
@@ -249,43 +244,27 @@ class Shape:
 
 		self.mapCenter = mapCenter
 
-	def getType(self):
-		"returns the type of shape"
-
-		shapeType = self.type
-		return shapeType
-
-	def getPath(self):
-		"returns the points of the path of the shape"
-
-		shapePath = self.path
-		return shapePath
-
-	def getArea(self):
-		"returns the area of the shape in m^2"
-
-		shapeArea = self.area
-		print(shapeArea)
-		return shapeArea
-
 	def getMapCenter(self):
-		"returns the average LatLng of the points on the path"
+		"returns the average LatLng of the points on the Bounds"
 
 		mapCenter = self.mapCenter
 		return mapCenter
 
+	def getArea(self):
+		"method to return the area of the given shape"
+
+		area = self.area
+		return area
+
 	def getShape(self):
 
-		shapeType = self.getType()
-		mapCenter = self.getMapCenter()
+		shapeType = self.type
+		mapCenter = self.mapCenter
 
 		if (shapeType == "none"):
 			return {"type":shapeType,"mapCenter":mapCenter}
 
-		shapePath = self.getPath()
-		mapCenter = self.getMapCenter()
+		shapeBounds = self.bounds
+		output = dumpJSON({"type":shapeType,"bounds":shapeBounds,"mapCenter":mapCenter},True)
 
-		output = dumpJSON({"type":shapeType,"path":shapePath,"mapCenter":mapCenter},True)
-
-		#print(output)
 		return output

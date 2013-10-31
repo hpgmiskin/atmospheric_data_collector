@@ -1,5 +1,12 @@
 //flight_planner_base.js
 
+var map; 
+var drawingManager;
+var shape;
+var volume;
+var markerTitles = ["Home","Takeoff","Landing","Next"];
+var markerSelect = 0;
+
 var DELAY = 200
 var DEFAULT_SHAPE_FORMAT = {
 		editable: true,
@@ -24,17 +31,13 @@ function setMarkerListeners(marker) {
 };
 
 function update(data) {
-
-	// alert(JSON.stringify(data));
+	// finction that is called when any component of the map is updated
 
 	if (data["volumeData"]){
 		// alert(data["volumeData"])
 		setVolumeData(data)
 	} else if (data["title"] + data["position"]) {
-
-		// alert(JSON.stringify(data["markerData"]));
-
-		console.log(data);
+		//console.log(data);
 		shape.setMap(null);
 		title = data["title"];
 		position = data["position"];
@@ -77,14 +80,22 @@ function updateMarker(marker) {
 function addAllMarkers(markerData) {
 
 	for (var i = 0;i<markerData.length;i++) {
-		addMarker(markerData[i]["title"],markerData[i]["position"],markerData[i]["icon"],markerData[i]["shadow"]); 
+		var title = markerData[i]["title"];
+		if (title != "none") {
+			var position = markerData[i]["position"];
+			var icon = markerData[i]["icon"];
+			var shadow = markerData[i]["shadow"];
+			addMarker(title,position,icon,shadow); 
+		};
 	};
 };
 
 
 function addMarker(title,position,icon,shadow) {
 
-	if (title == "home")
+	if (title == "Home"){
+		//TODO clear all markers
+	};
 
 	var point = new google.maps.LatLng(position[0],position[1]);
 	console.log(point);
