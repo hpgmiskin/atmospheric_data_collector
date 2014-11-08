@@ -1,38 +1,40 @@
+#atmospheric_data_collector
 
-    ,-----.,--.                  ,--. ,---.   ,--.,------.  ,------.
-    '  .--./|  | ,---. ,--.,--. ,-|  || o   \  |  ||  .-.  \ |  .---'
-    |  |    |  || .-. ||  ||  |' .-. |`..'  |  |  ||  |  \  :|  `--, 
-    '  '--'\|  |' '-' ''  ''  '\ `-' | .'  /   |  ||  '--'  /|  `---.
-     `-----'`--' `---'  `----'  `---'  `--'    `--'`-------' `------'
-    ----------------------------------------------------------------- 
+Atmospheric data collector contains the code for a Django web application to select and plan routes for the accompanying [route_planner](https://github.com/miskinh/route_planner) repository. This is as incomplete web application as requirements changed for the duration on the `route_planner` project.
 
+##Overview
 
-Welcome to your Django project on Cloud9 IDE!
+This web application was designed with the intention of providing a user friendly interface to plan unmanned aerial vehicle flights. This functionality is provided through interacting with Google Maps API.
 
-Here are some steps to get you started:
+##To Run
 
-1) Use your terminal to install and start MySQL:
-$ mysql-ctl start
+To run this application its best to use a virtual environment. The requirements of the files that should be installed in the virtual environment can be found in `requirements.txt`. The process I suggest for this is as follows.
 
-2) Run syncdb command to sync models to database and create Django's default superuser and auth system
-$ python manage.py syncdb
+1. Install Python3 *- Python 3.4 comes with pip as standard*
+2. Install virtualenv by typing the following into the terminal
+    $ pip3 install vitualenv
+3. Navigate to the local directory containing this repository in terminal
+    $ cd FOLDER_PATH
+4. Create a new virtual environment in this directory
+    $ virtualenv -p python3 venv
+5. Activate the virtual environment
+    $ source venv/bin/activate
+6. Install requirements using pip3
+    $ pip3 install -r requirements.txt --allow-all-external
+7. Run the server
+    $ python3 manage.py runserver
+8. Open you internet browser and navigate to
+    localhost:8000
 
-3) Optionally, install pip if you need it for installing any other python modules:
-$ curl https://raw.github.com/pypa/pip/master/contrib/get-pip.py | python
+##Disclaimer
 
-4) Run Django
-$ python -B manage.py runserver $IP:$PORT
+This is a poorly designed web application which I am in the process of redeveloping from scratch. This is due to the spaghetti nature of the code and the fact that the following technologies will make this a far more powerful application.
 
+* AngularJS
+* Django Rest Framework
 
-Happy coding!
-The Cloud9 IDE team
+An excellent tutorial detailing the above technologies can be found [here](http://blog.kevinastone.com/getting-started-with-django-rest-framework-and-angularjs.html)
 
-## Support & Documentation
+##Licence
 
-Django docs can be found at https://www.djangoproject.com/
-
-You may also want to follow the Django tutorial to create your first application:
-https://docs.djangoproject.com/en/1.5/intro/tutorial01/
-
-Visit http://docs.c9.io for support, or to learn more about using Cloud9 IDE.
-To watch some training videos, visit http://www.youtube.com/user/c9ide
+Please feel free to use any code contained within the repository for non commercial purposes however I request that credit is given to myself for any direct copying.

@@ -61,7 +61,8 @@ class Marker:
 
 		markerTitle = markerData["title"]
 		markerPosition = markerData["position"]
-		markerPosition = [markerPosition["lb"],markerPosition["mb"]]
+		# print(markerPosition)
+		markerPosition = [markerPosition["k"],markerPosition["A"]]
 
 		self.home["updated"] = 0
 		self.takeoff["updated"] = 0
@@ -220,7 +221,7 @@ class Shape:
 			rawBounds = json.loads(rawBounds)
 
 		if (shapeType == "rectangle"):
-			newBounds = [[rawBounds["ea"]["b"],rawBounds["fa"]["b"]],[rawBounds["ea"]["d"],rawBounds["fa"]["d"]]]
+			newBounds = [[rawBounds["ra"]["k"],rawBounds["Ba"]["k"]],[rawBounds["ra"]["j"],rawBounds["Ba"]["j"]]]
 			print(newBounds)
 
 

@@ -14,10 +14,6 @@ Flight Planner - {% block subTitle %}{% endblock %}
 {% block script %}{% endblock %}
 {% endblock %}
 
-{% block sidebarTitle %}
-Flight Planner
-{% endblock %}
-
 {% block sidebarContent %}
 {% for panel in panels %}
 {% include "shared/generic_panel.html" with panelID=panel.id panelTitle=panel.title panelContent=panel.content %}
